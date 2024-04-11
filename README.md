@@ -9,20 +9,24 @@ SH-SDS conducts the network security detection of hosts in substations and outpu
 Installation
 ============
 
-Tools and environment
+Environment
 ---------------------
 Operating system: Ubuntu 16.04.7, Ubuntu 22.04.1, or Kylin 3.3
-
 
 Experimental steps
 ------------------
 1. Installing an operating system in PC or virtual machine.
-2. Copy the SH-SDS(SH-SDS-GUI) to taget host.
+2. Copy the SH-SDS (SH-SDS-GUI) to taget host.
 3. Start a terminal.
-4. Input command './SH-SDS-GUI'.
-5. The main interface of SH-SDS is shown below.  
-![main interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/main interface.png)
-6. 
+4. Input command './SH-SDS-GUI' to run the SH-SDS.
+5. The main interface of SH-SDS is shown below. Click the 'Scan' ("扫描") button to start the detection task.  
+![main interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/main.png)
+6. The detection result is shown as the follow figure.  
+![operation interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/operation.png)
+* Click the 'Export' ("导出") button to output the results in xlsx format.
+* Click the 'Back' ("返回") button to return to the main interface.
+* 
+ 7. 
 
 
 Appendix
@@ -32,4 +36,4 @@ SH-SDS-CODE: Source code of SH-SDS.
 
 Citation
 ========
-A related paper is submitted to the SCI journal.
+A related paper is submitted to PeerJ Computer Science.
