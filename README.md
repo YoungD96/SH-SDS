@@ -20,8 +20,8 @@ Experimental steps
 2. Copy the SH-SDS(SH-SDS-GUI) to taget host.
 3. Start a terminal.
 4. Input command './SH-SDS-GUI'.
-5. The main interface of SH-SDS is shown below.
-![image text](https://github.com/YoungD96/SH-SDS/tree/main/UI/main interface.png)
+5. The main interface of SH-SDS is shown below.  
+![main interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/main interface.png)
 6. 
 
 
