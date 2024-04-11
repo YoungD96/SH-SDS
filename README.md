@@ -25,12 +25,18 @@ Operation Guide
 
 Experiments
 ==================
-1. Add '#' in front of different user in '/etc/passwd', testing user management.
-2. Edit the 'PASS_MIN_LEN' in '/etc/login.defs', testing the restriction of password length.
-3. Edit 'dcredit', 'ucredit', 'lcredit', 'ocredit' separately, testing the restrition of password composition.
-4. Edit 'PASS_MAX_DAYS' in '/etc/login.defs', testing the restrition of the updating cycle of password.
-5. 
-
+1. Add '#' in front of different user in '/etc/passwd', testing the detection of user management.
+2. Edit the value of 'PASS_MIN_LEN' in '/etc/login.defs', testing the detection of restriction of password length.
+3. Edit value of 'dcredit', 'ucredit', 'lcredit', 'ocredit' separately, testing the detection of restrition of password composition.
+4. Edit the value of 'PASS_MAX_DAYS' in '/etc/login.defs', testing the detection of restrition of the updating cycle of password.
+5. Edit the value of 'TMOUT' in '/etc/profile', testing the detection of lock time of host.
+6. Shut down ports 135, 137, 138, 139 and 3389 separately, testing the detection of ports status.
+7. Shut donw services like E-Mail, FTP, telnet, rlogin, NetBIOS, DHCP, rsyslog, auditd, testing the detection of services status.
+8. Edit the value of 'Port' in '/etc/ssh/sshd_config', testing the detection of ssh port.
+9. Add '#' in front of 'SyslogFacility AUTH' in '/etc/ssh/sshd_config', testing the detection of ssh logs audit.
+10. Edit the value of 'rotate' in '/etc/logrotate.conf', testing the detection of the retention period of audit content.
+11. Edit the ip in '/etc/sysconfig/iptables', testing the detection of white list.
+12. Edit the value of 'HISTSIZE' and 'HISTFILESIZE', testing the detection of 'his' command.
 
 Appendix
 ==========
