@@ -36,7 +36,7 @@ Experiments
 9. Add '#' in front of 'SyslogFacility AUTH' in '/etc/ssh/sshd_config', testing the detection of ssh logs audit.
 10. Edit the value of 'rotate' in '/etc/logrotate.conf', testing the detection of the retention period of audit content.
 11. Edit the ip in '/etc/sysconfig/iptables', testing the detection of white list.
-12. Edit the value of 'HISTSIZE' and 'HISTFILESIZE', testing the detection of 'his' command.
+12. Edit the value of 'HISTSIZE' and 'HISTFILESIZE', testing the detection of 'his' command.  
 ...
 
 Appendix
