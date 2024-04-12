@@ -17,9 +17,9 @@ Operation Guide
 3. Start a terminal.
 4. Input command './SH-SDS-GUI' to run the SH-SDS.
 5. The main interface of SH-SDS is shown below. Click the 'Scan' ("扫描") button to start the detection task.  
-![main interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/main.png)
+![main interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/main.jpg)
 6. The detection result is shown as the follow figure.  
-![operation interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/operation.png)
+![operation interface](https://github.com/YoungD96/SH-SDS/tree/main/UI/operation.jpg)
 * Click the 'Export' ("导出") button to output the results in xlsx format.
 * Click the 'Back' ("返回") button to return to the main interface.
 
