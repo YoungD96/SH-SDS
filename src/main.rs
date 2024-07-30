@@ -99,7 +99,7 @@ fn host_security_panel(scanbtn: Button) -> group::Scroll {
     let mut parent = group::Flex::default_fill().column().with_size(WIN_WIDTH, cell_height * 25);
 
     let mut button_group = group::Flex::default_fill().row();
-    let mut btn = Button::new(0, 0, 40, 40, "导出");
+    let mut btn = Button::new(0, 0, 40, 40, "导出");  //导出(scan)
     btn.set_callback(move |_| {
         let mut dlg = dialog::FileDialog::new(dialog::FileDialogType::BrowseSaveFile);
         dlg.set_option(dialog::FileDialogOptions::SaveAsConfirm);
@@ -109,7 +109,7 @@ fn host_security_panel(scanbtn: Button) -> group::Scroll {
     });
 
     button_group.set_size(&btn, WIN_WIDTH / 2 - bar_width);
-    let mut btn = Button::new(0, 0, 40, 40, "返回");
+    let mut btn = Button::new(0, 0, 40, 40, "返回"); //返回(back)
     {
         let mut scroll = scroll.clone();
         let mut scanbtn = scanbtn.clone();
@@ -248,14 +248,14 @@ fn saveas(dst: String) -> Result<String, String> {
         let _ = std::fs::remove_file(dst);
     }
 
-    let tplbytes = include_bytes!("../assets/附件2：网络安全台账（原件）.xlsx");
+    let tplbytes = include_bytes!("../assets/附件2：网络安全台账（原件）.xlsx"); //附件2：网络安全台账（原件）.xlsx (the prototype of results report)
     let tmpdir = tempfile::tempdir().map_err(|e| format!("cannot create temporary directory: {:?}", e))?;
     let tplpath = tmpdir.path().join("tpl.xlsx");
     let mut tplfile = File::create(&tplpath).map_err(|e| format!("cannot create template file: {:?}", e))?;
     let _ = tplfile.write_all(&tplbytes[..]);
 
     let mut book = umya_spreadsheet::reader::xlsx::read(&tplpath).unwrap();
-    let sheet = book.get_sheet_by_name_mut("工作站").unwrap();
+    let sheet = book.get_sheet_by_name_mut("工作站").unwrap();  //工作站(workstation)
     for cell in cells {
         let r = cell.check();
         for (k, v) in r.mp.iter() {
@@ -278,10 +278,10 @@ fn main() {
 
     let mut win = Window::default()
         .with_size(WIN_WIDTH, WIN_HEIGHT)
-        .with_label("安全加固检查")
+        .with_label("安全加固检查")  //安全加固检查(Security reinforcement inspection)
         .center_screen();
 
-    let mut scanbtn = Button::new(0, 0, 40, 40, "扫描").center_of(&win);
+    let mut scanbtn = Button::new(0, 0, 40, 40, "扫描").center_of(&win);  //扫描(scan)
     let mut panel = host_security_panel(scanbtn.clone());
     panel.hide();
     let mut btndup = scanbtn.clone();
