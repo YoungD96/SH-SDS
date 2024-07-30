@@ -61,18 +61,18 @@ fn table_block(cells: Vec<TableCell>, typ: TableBlockType) -> group::Flex {
 fn compound_row(subject: Vec<TableCell>, chklst: Vec<TableCell>, comments: Vec<TableCell>) -> group::Flex {
     let mut row = group::Flex::default().row();
 
-    // 第一列: 安全类型
+    // First column: Security type
     let sectype = table_block(subject, TableBlockType::Col);
     row.set_size(&sectype, 100);
     let pad = frame::Frame::default();
     row.set_size(&pad, 1);
 
-    // 第二列: 安全要求
+    // Second column: Safety requirements
     let _secreq = table_block(chklst, TableBlockType::Col);
     let pad = frame::Frame::default();
     row.set_size(&pad, 1);
 
-    // 第三列: 安全备注
+    // Third column: Safety remarks
     let mut seccmt = group::Flex::default().column();
     for comment in comments {
         let text = text_area(&comment.val);
