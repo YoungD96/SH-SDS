@@ -76,7 +76,7 @@ impl GuardItem {
         let mut cell = GuardCell::new();
         match self {
             GuardItem::OS => {
-                cell.add("A4", "operating system");
+                cell.add("A4", "Operating System");
                 if let Ok(r) = util::runcmd("cat /etc/issue", None) {
                     cell.add("B4", r.trim().replace("\r", " ").replace("\n", " "));
                 } else {
@@ -99,7 +99,7 @@ impl GuardItem {
                 cell.add("B5", &iplist.join(";"));
             },
             GuardItem::UserMgmt => {
-                cell.add("A8", "user management");
+                cell.add("A8", "User Management");
 
                 // Umask is a shell built-in command, so it cannot be run directly through the Command module. The solution comes from
                 // https://stackoverflow.com/questions/32146111/run-shell-builtin-command-in-python
@@ -144,7 +144,7 @@ impl GuardItem {
 
             },
             GuardItem::PasswdComplexity => {
-                cell.add("A10", "password complexity configuration"); 
+                cell.add("A10", "The complexity of passwords"); 
 
                 #[derive(Debug, Serialize, Deserialize)]
                 struct Passwd {
