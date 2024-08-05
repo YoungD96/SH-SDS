@@ -76,7 +76,7 @@ impl GuardItem {
         let mut cell = GuardCell::new();
         match self {
             GuardItem::OS => {
-                cell.add("A4", "操作系统");  //操作系统(operating system)
+                cell.add("A4", "operating system");
                 if let Ok(r) = util::runcmd("cat /etc/issue", None) {
                     cell.add("B4", r.trim().replace("\r", " ").replace("\n", " "));
                 } else {
@@ -85,7 +85,7 @@ impl GuardItem {
                 }
             },
             GuardItem::IP => {
-                cell.add("A5", "设备 IP");  //设备 IP(Device IP)
+                cell.add("A5", "IP");
                 let mut iplist = vec![];
                 for iface in datalink::interfaces() {
                     let ips = iface.ips.iter().filter(|x| x.is_ipv4())
@@ -99,7 +99,7 @@ impl GuardItem {
                 cell.add("B5", &iplist.join(";"));
             },
             GuardItem::UserMgmt => {
-                cell.add("A8", "用户管理");  //用户管理(user management)
+                cell.add("A8", "user management");
 
                 // Umask is a shell built-in command, so it cannot be run directly through the Command module. The solution comes from
                 // https://stackoverflow.com/questions/32146111/run-shell-builtin-command-in-python
@@ -114,8 +114,8 @@ impl GuardItem {
                     Mark::from(false)
                 };
                 cell.add("B8", &formatdoc!(r#"
-                        [  ]应删除或锁定过期帐户、无用帐户和隐藏账号  //Expired accounts, useless accounts, and hidden accounts should be deleted or locked
-                        [{}]每个用户是否按要求开展权限设置  //Has each user carried out permission settings as required
+                        [  ]Delete or lock expired, useless, or hidden accounts
+                        [{}]Set user privileges as required
                     "#,  mark.as_str()),
                 );
 
@@ -140,11 +140,11 @@ impl GuardItem {
                     println!("cannot read /etc/passwd");
                     Mark::from(false)
                 };
-                cell.add("B9", &formatdoc!("[{}]不能使用默认用户名，例如：root、superadmin、administrator等", mark.as_str()));  //Cannot use default usernames, such as root, superadmin, administrator, etc
+                cell.add("B9", &formatdoc!("[{}]Cannot use default username, such as root, superadmin et. al.", mark.as_str())); 
 
             },
             GuardItem::PasswdComplexity => {
-                cell.add("A10", "密码复杂度配置");  //密码复杂度配置(Password complexity configuration)
+                cell.add("A10", "password complexity configuration"); 
 
                 #[derive(Debug, Serialize, Deserialize)]
                 struct Passwd {
@@ -233,10 +233,10 @@ impl GuardItem {
                 };
 
                 cell.add("B10", &formatdoc!("
-                        [{}]密码长度不小于8位  //Password length not less than 8 digits
-                        [{}]采取字母、数字和特殊字符的混合组合  //Adopting a mixed combination of letters, numbers, and special characters
-                        [  ]密码与用户名不相同  //Password and username are not the same
-                        [{}]密码更新周期180天  //Password update cycle 180 days
+                        [{}]Length not less than 8
+                        [{}]Using a combination of letters, numbers, and special characters
+                        [  ]Password and username are not the same
+                        [{}]The update cycle should not exceed 180 days
                     ",
                     Mark::from(passwd.minimum_size >= 8).as_str(),
                     Mark::from(passwd.is_strong_combination).as_str(),
@@ -244,7 +244,7 @@ impl GuardItem {
                 ));
             },
             GuardItem::OperationTimeout => {
-                cell.add("A11", "登录终端的操作超时锁定");  //登录终端的操作超时锁定(Lock after login terminal operation timeout)
+                cell.add("A11", "lock after login terminal operation timeout"); 
 
                 let mut tmout = None;
                 if let Ok(r) = util::runcmd("cat /etc/profile", None) {
@@ -271,10 +271,10 @@ impl GuardItem {
                     }
                 }
 
-                cell.add("B11", &format!("[{}]设置操作超时为小于或等于10分钟", mark.as_str()));  //设置操作超时为小于或等于10分钟(Set the operation timeout to be less than or equal to 10 minutes)
+                cell.add("B11", &format!("[{}]Set the operation timeout to be less than or equal to 10 minutes", mark.as_str()));
             },
             GuardItem::Port => {
-                cell.add("A14", "高危端口封闭");  //高危端口封闭(High risk port closure)
+                cell.add("A14", "high risk port closure"); 
 
                 let tcp_port_list = vec![135, 137, 138, 139, 445, 3389];
                 let is_tcp_port_opened = |port: usize| -> bool {
@@ -291,12 +291,12 @@ impl GuardItem {
                 }
 
                 cell.add("B14", &formatdoc!("
-                        [{}]关闭135  //shutdown port 135
-                        [{}]关闭137  //shutdown port 137
-                        [{}]关闭138  //shutdown port 138
-                        [{}]关闭139  //shutdown port 139
-                        [{}]关闭445  //shutdown port 445
-                        [{}]关闭3389  //shutdown port 3389
+                        [{}]shutdown port 135
+                        [{}]shutdown port 137
+                        [{}]shutdown port 138
+                        [{}]shutdown port 139
+                        [{}]shutdown port 445
+                        [{}]shutdown port 3389
                     ",
                     Mark::from(!mp.contains_key(&135)).as_str(),
                     Mark::from(!mp.contains_key(&137)).as_str(),
@@ -307,7 +307,7 @@ impl GuardItem {
                 ));
             },
             GuardItem::Service => {
-                cell.add("A15", "关闭服务");   //关闭服务(shutdown services)
+                cell.add("A15", "shutdown services"); 
 
                 let parse = |line: &str| -> Option<(String, [bool; 7])> {
                     let items = line.split("\t").filter(|x| x.trim().len() > 0).collect::<Vec<&str>>();
@@ -319,8 +319,7 @@ impl GuardItem {
                     let mut switches: [bool; 7] = [true; 7];
                     for (idx, item) in items[1..].iter().enumerate() {
                         if let Some(status) = item.split(":").nth(1) {
-                            if status == "关闭" {
-                                //关闭(shutdown)
+                            if status == "shutdown" {
                                 switches[idx] = false;
                             } else {
                                 switches[idx] = true;
@@ -386,7 +385,7 @@ impl GuardItem {
                     }
                 }
                 let extra_open_service_list_desc = if extra_open_service_list.len() > 0 {
-                    format!("以下服务未关闭：{}", extra_open_service_list.join("、"))  //以下服务未关闭(The following services have not been closed)
+                    format!("The following services have not been closed：{}", extra_open_service_list.join("、"))
                 } else {
                     "".to_string()
                 };
@@ -418,7 +417,7 @@ impl GuardItem {
                 cell.add("C15", &extra_open_service_list_desc);
             },
             GuardItem::Audit => {
-                cell.add("A19", "远程访问/系统审计/审计内容");  //远程访问/系统审计/审计内容(Remote access/system audit/audit content)
+                cell.add("A19", "remote access/system audit/audit content"); 
 
                 let mut mp = HashMap::new();
 
@@ -461,8 +460,7 @@ impl GuardItem {
                 for service in service_list {
                     let cmd = format!("service {} status", service);
                     if let Ok(r) = util::runcmd(&cmd, None) {
-                        if r.contains("正在运行") {
-                            //正在运行(running)
+                        if r.contains("running") {
                             mp.insert(service, true);
                         }
                     } else {
@@ -504,15 +502,14 @@ impl GuardItem {
                 }
 
                 cell.add("B19", &formatdoc!("
-                        [{}]开启系统日志进程(syslog)  //Run the system log process (syslog)
-                        [{}]开启审计进程(auditd)  //Run the audit process (auditd)
-                        [{}]开启SSH日志审计  //Enable SSH log auditing
-                        [{}]审计内容保存6个月  //Keep audit content for 6 months
-                        [  ]将审计内容发送到其他日志审计设备存储  //Send audit content to other log audit devices for storage
-                        [{}]至少包括：用户的添加和删除、审计功能的启动和关闭、审计策略的调整、权限变更、系统资源的异常使用、重要的系统操作（如用户登录、退出）等
-                        //At least including: adding and deleting users, starting and closing audit functions, adjusting audit policies, changing permissions, abnormal use of system resources, important system operations (such as user login and logout), etc
-                        [{}]启用SSH  //Enable SSH
-                        [{}]修改SSH默认端口  //Modify SSH default port
+                        [{}]Run the system log process (syslog)
+                        [{}]Run the audit process (auditd)
+                        [{}]Enable SSH log auditing
+                        [{}]Keep audit content for 6 months
+                        [  ]Send audit content to other log audit devices for storage
+                        [{}]At least including: adding and deleting users, starting and closing audit functions, adjusting audit policies, changing permissions, abnormal use of system resources, important system operations (such as user login and logout), etc
+                        [{}]Enable SSH
+                        [{}]Modify SSH default port
                     ",
                     Mark::from(mp.contains_key("rsyslog")).as_str(),
                     Mark::from(mp.contains_key("auditd")).as_str(),
@@ -524,7 +521,7 @@ impl GuardItem {
                 ));
             },
             GuardItem::IPTables => {
-                cell.add("A21", "设定终端接入方式、网络地址范围");  //设定终端接入方式、网络地址范围(Set terminal access method and network address range)
+                cell.add("A21", "set terminal access method and network address range");
                 let iplist = if let Ok(r) = util::runcmd("cat /etc/sysconfig/iptables", None) {
                     let mut iplist = vec![];
                     for line in r.lines() {
@@ -543,7 +540,7 @@ impl GuardItem {
                 cell.add("C21", &iplist);
             },
             GuardItem::CommandHistory => {
-                cell.add("A25", "his命令");  //his命令(his command)
+                cell.add("A25", "his command");
 
                 let mut mp = HashMap::<&str, usize>::new();
                 if let Ok(r) = util::runcmd("cat /etc/profile", None) {
@@ -574,7 +571,7 @@ impl GuardItem {
                 }
                 let histsz = mp.get("HISTSIZE").map_or(50000, |&v| v);
                 let histfsz = mp.get("HISTFILESIZE").map_or(50000, |&v| v);
-                cell.add("B25", &format!("[{}]删除系统his命令", Mark::from(histsz <= 5 && histfsz <= 5).as_str()));  //删除系统his命令(delete his command from system)
+                cell.add("B25", &format!("[{}]delete his command from system", Mark::from(histsz <= 5 && histfsz <= 5).as_str()));
             },
         }
         cell
